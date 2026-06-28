@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Environments
+venv/
+.env/
+.venv/
+.env
+*.egg-info/
+
+# Data
+data/raw/
+data/processed/
+
+# Model checkpoints
+outputs/models/
+*.pt
+*.pth
+*.ckpt
+
+# Kaggle/local files
+kaggle.json
+
+# System
+.DS_Store
+Thumbs.db
