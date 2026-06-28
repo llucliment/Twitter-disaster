@@ -7,3 +7,7 @@ torch
 tqdm
 jupyter
 ipykernel
+transformers
+datasets
+accelerate
+evaluate
