@@ -1,6 +1,8 @@
 from torch.utils.data import Dataset
 import torch
 from src.preprocessing import numericalize
+from torch.nn.utils.rnn import pad_sequence, pack_padded_sequence
+import numpy as np
 
 PAD_TOKEN = "<PAD>"
 UNK_TOKEN = "<UNK>"
@@ -31,7 +33,7 @@ class DisasterTweetsDataset(Dataset):
         y = torch.tensor(self.labels[idx], dtype=torch.float32)
         return x, y
     
-def collate_batch(batch):
+def collate_batch(batch, vocab):
     texts, labels = zip(*batch)
 
     lengths = torch.tensor([len(x) for x in texts], dtype=torch.long)
@@ -46,7 +48,7 @@ def collate_batch(batch):
     return padded_texts, lengths, labels
 
 
-def collate_test_batch(batch):
+def collate_test_batch(batch, vocab):
     lengths = torch.tensor([len(x) for x in batch], dtype=torch.long)
     padded_texts = pad_sequence(
         batch,
