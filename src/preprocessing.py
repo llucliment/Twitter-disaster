@@ -35,3 +35,15 @@ def build_vocab(texts, min_freq=2, max_vocab_size=20000):
 
 def numericalize(text, vocab):
     return [vocab.get(token, vocab[UNK_TOKEN]) for token in tokenize(text)]
+
+def add_keyword_to_input_text(df):
+    keyword = (
+        df["keyword"]
+        .fillna("")
+        .str.replace("%20", " ", regex=False)
+        .str.strip()
+    )
+
+    input_text = df["input_text"].fillna("").str.strip()
+
+    return (keyword + " " + input_text).str.strip()
