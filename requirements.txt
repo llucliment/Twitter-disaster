@@ -12,3 +12,4 @@ datasets
 accelerate
 evaluate
 python-dotenv
+emoji==0.6.0
