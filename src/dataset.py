@@ -6,7 +6,7 @@ import numpy as np
 
 PAD_TOKEN = "<PAD>"
 UNK_TOKEN = "<UNK>"
-
+# Dataset for using custom RNNs
 class DisasterTweetsDataset(Dataset):
     def __init__(self, df, vocab, is_test=False):
         self.texts = df["text"].tolist()
@@ -57,3 +57,40 @@ def collate_test_batch(batch, vocab):
     )
 
     return padded_texts, lengths
+
+
+
+# Dataset for using bertweet
+class TweetDataset(Dataset):
+    def __init__(self, texts, labels=None, tokenizer=None, max_length=128):
+        self.texts = texts.tolist()
+        self.labels = labels
+        self.tokenizer = tokenizer
+        self.max_length = max_length
+
+    def __len__(self):
+        return len(self.texts)
+
+    def __getitem__(self, idx):
+        text = self.texts[idx]
+
+        encoding = self.tokenizer(
+            text,
+            padding="max_length",
+            truncation=True,
+            max_length=self.max_length,
+            return_tensors="pt"
+        )
+
+        item = {
+            "input_ids": encoding["input_ids"].squeeze(0),
+            "attention_mask": encoding["attention_mask"].squeeze(0)
+        }
+
+        if self.labels is not None:
+            item["labels"] = torch.tensor(
+                self.labels[idx],
+                dtype=torch.long
+            )
+
+        return item
