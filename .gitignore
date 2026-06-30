@@ -26,3 +26,6 @@ kaggle.json
 # System
 .DS_Store
 Thumbs.db
+
+# Submissions
+*.csv
